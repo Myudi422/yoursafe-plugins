@@ -118,6 +118,37 @@ Source-page helpers run before domain resolvers for qualifying anchors; returnin
 
 OvaGames version 1 is bundled in 4.0.4 for first use and offline upgrades, then updated through the public catalog. Explicit removal remains respected. Names/descriptions in the plugin UI are English, and the helper appears as **Website link helper**. Tests cover unknown outbound domains, source-domain lookalikes, unrelated pages/cache isolation, malformed/unsafe destinations, early clicked-link resolution, schema rejection, and existing API 2 behavior. Automated tests are not a claim of live website or physical-device validation.
 
+## Limited network resolvers — API 4 / YourSafe 4.0.5
+
+API 4 is a domain shortlink helper with explicit `network.get` permission. The JavaScript sandbox itself remains unchanged and isolated. A native broker performs bounded reads before invoking `resolve(input)`; plugin scripts receive only a small extracted snapshot, never a socket, raw HTML, cookies, response headers, or native callback.
+
+```json
+{
+  "apiVersion": 4,
+  "type": "shortlink",
+  "id": "shortlink-example-network",
+  "name": "Example resolver",
+  "description": "Opens ready links. Site verification may still be required.",
+  "domains": ["short.example"],
+  "selectors": ["a.get-link:not(.disabled)[href]"],
+  "permissions": ["page.links", "navigation.resolve", "network.get"],
+  "network": {"hosts": ["short.example"], "methods": ["GET"]},
+  "script": "function resolve(input) { return null; }"
+}
+```
+
+This dummy example documents the schema, not a working provider. Network hosts must be an exact subset of the plugin's domains (one to eight entries); methods must be exactly `["GET"]`. Source-page scope and outbound rules cannot be combined with API 4. Earlier APIs cannot declare network capability. API 4 plugins participate in URL resolution and href rewriting even with nonempty selectors; those selectors also collect ready links from the actual browser page.
+
+For an empty browser-link snapshot, the broker reads the input URL over HTTPS port 443, checks exact host membership, and sends no browser cookie, authorization, referrer, custom plugin header, or request body. It uses no proxy/cache/authenticator/cookie jar. DNS results are checked on connection establishment: local, private, loopback, link-local, multicast, reserved, and relevant transition ranges are rejected, including mixed public/private answer sets. IP literal request hosts are rejected. Automatic HTTP redirects are disabled: at most three same-allowlist requests are followed, with loop checks. A valid external HTTPS Location may be returned to the script but is never fetched by the broker. TLS certificate validation remains enabled.
+
+Each call has a four-second deadline, with three-second connection/read timeouts; the resolution operation has a 15-second deadline, and at most two broker operations run concurrently. Bodies are capped at 1 MiB, including decompressed content. No scripts or subresources in fetched HTML execute. Native HTML parsing extracts only anchors selected by the manifest (at most 16 links / 24,000 URL characters), ignores document base URL overrides, and validates candidate URLs. The sandbox input still has a 64 KiB total limit.
+
+The additional `input.network` object has `status`, `links: [{selector, href}]`, `verificationRequired`, and an optional validated `location`. It contains no raw HTML or hidden form values. Scripts continue returning `{url: ...}` or null. Ready browser links are used without a fresh request. All existing URL validation, generation/cancellation checks, chain limits, auto install/update, and isolated-worker budgets apply. Verification pages stop the network resolver; an early user click opens the original URL with an English instruction to complete verification in the browser. Background href rewriting leaves an unresolved link unchanged. The normal page collector can resolve a ready destination after the site exposes it; it does not automate CAPTCHA, form submission, waiting gates, or ad interactions.
+
+The ShrinkMe and Clksz plugins accept only available Filecrypt `/Container/...html` destinations. Their observed short-code pages currently contain verification forms and no direct destination. A live desktop run against both Astro Bot examples reported **HTTP 200, verificationRequired=true, resolved=false**. Automated ready-link and redirect fixtures verify conditional resolution, not successful live bypass. There is no third-party bypass service. No Android device was tested. Resolving all protected short codes automatically is not delivered by this API.
+
+API 4 selectors use a restricted anchor-only subset: `a`, optional `.class` matches, optional `:not(.class)` / `:not([aria-disabled=true])` exclusions, and a required trailing `[href]`. Regex, text predicates, nested arbitrary selectors, and expensive general selectors are rejected before native parsing.
+
 ## Modul awal yang diadaptasi
 
 | Plugin | Sumber pola | Cakupan aktual |

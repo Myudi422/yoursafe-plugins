@@ -40,6 +40,19 @@ class AutomaticVersionsTest(unittest.TestCase):
     def test_new_plugin_starts_at_one_without_a_version_field(self):
         self.assertEqual(1, self.read()['version'])
 
+    def test_network_plugins_require_api_four_exact_hosts_and_get_only(self):
+        plugin = dict(apiVersion=4, type='shortlink', id='example', name='Example resolver', domains=['example.com'],
+                      selectors=['a.get-link[href]'], permissions=['page.links','navigation.resolve','network.get'],
+                      network=dict(hosts=['example.com'], methods=['GET']), script='function resolve(i){return null;}')
+        self.write(plugin)
+        build(self.root)
+        self.assertEqual(4,json.loads((self.root / 'index.json').read_bytes())['plugins'][0]['apiVersion'])
+        for invalid in [dict(hosts=['example.com'],methods=['POST']),dict(hosts=['other.example'],methods=['GET'])]:
+            plugin['network']=invalid
+            self.write(plugin)
+            with self.assertRaises(AssertionError):
+                build(self.root)
+
     def test_source_page_plugin_uses_api_three_and_validates_outbound_rules(self):
         plugin = dict(apiVersion=3, type='shortlink', id='example', name='Example links', domains=['example.com'],
                       scope='source-page', outbound=dict(paths=['/full', '/full/'], queryParameter='url'), selectors=[],

@@ -1,0 +1,30 @@
+{
+  "apiVersion": 4,
+  "type": "shortlink",
+  "id": "shortlink-shrinkme",
+  "name": "ShrinkMe",
+  "description": "Resolves available Filecrypt links with limited HTTPS requests. Site verification may still be required.",
+  "domains": [
+    "shrinkme.click"
+  ],
+  "selectors": [
+    "a.get-link:not(.disabled):not([aria-disabled=true])[href]"
+  ],
+  "permissions": [
+    "page.links",
+    "navigation.resolve",
+    "network.get"
+  ],
+  "network": {
+    "hosts": [
+      "shrinkme.click"
+    ],
+    "methods": [
+      "GET"
+    ]
+  },
+  "script": "function resolve(input) {\n  function destination(value) {\n    return typeof value === 'string' && /^https:\\/\\/(?:www\\.)?filecrypt\\.cc\\/Container\\/[A-Za-z0-9_-]+\\.html(?:[?#].*)?$/.test(value) ? {url:value} : null;\n  }\n  var links=input.links || [], net=input.network || {}, result;\n  for(var i=0;i<links.length;i++){result=destination(links[i].href);if(result)return result;}\n  result=destination(net.location);if(result)return result;\n  var ready=net.links || [];\n  for(var j=0;j<ready.length;j++){result=destination(ready[j].href);if(result)return result;}\n  return null;\n}",
+  "attribution": {
+    "note": "Original read-only resolver based on the observed shortlink page and its ready-link selector. Does not submit forms, solve CAPTCHA, or execute site scripts."
+  }
+}

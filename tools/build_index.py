@@ -49,11 +49,19 @@ def build(root):
     for path in sorted((root / 'plugins').glob('*/plugin.json')):
         raw = path.read_bytes()
         plugin = json.loads(raw)
-        assert type(plugin['apiVersion']) is int and plugin['apiVersion'] in (1, 2, 3)
+        assert type(plugin['apiVersion']) is int and plugin['apiVersion'] in (1, 2, 3, 4)
         kind = plugin.get('type', 'video')
         assert kind in ('video', 'shortlink')
         if kind == 'shortlink':
-            assert plugin['apiVersion'] in (2, 3) and isinstance(plugin.get('script'), str)
+            assert plugin['apiVersion'] in (2, 3, 4) and isinstance(plugin.get('script'), str)
+            if plugin['apiVersion'] == 4:
+                network = plugin['network']
+                assert isinstance(network, dict) and network.get('methods') == ['GET']
+                assert 1 <= len(network['hosts']) <= 8
+                assert all(isinstance(host, str) and host in plugin['domains'] for host in network['hosts'])
+                assert all(re.fullmatch(r'a(?:\.[A-Za-z0-9_-]+)*(?::not\(\.[A-Za-z0-9_-]+\)|:not\(\[aria-disabled=true\]\))*\[href\]', s) for s in plugin.get('selectors', []))
+            else:
+                assert 'network' not in plugin
             if plugin['apiVersion'] == 3:
                 assert plugin.get('scope') == 'source-page' and plugin.get('selectors') == []
                 outbound = plugin['outbound']
@@ -66,10 +74,11 @@ def build(root):
             assert 0 < len(plugin['script'].encode('utf-8')) <= 65536
             assert len(plugin.get('selectors', [])) <= 8
             assert all(isinstance(s, str) and 0 < len(s) <= 200 for s in plugin.get('selectors', []))
-            assert set(plugin.get('permissions', [])) == {'page.links', 'navigation.resolve'}
+            expected_permissions = {'page.links', 'navigation.resolve'} | ({'network.get'} if plugin['apiVersion'] == 4 else set())
+            assert set(plugin.get('permissions', [])) == expected_permissions
             assert not any(key in plugin for key in ('playback', 'subtitles', 'mediaSelectors'))
         else:
-            assert plugin['apiVersion'] == 1 and 'script' not in plugin and 'scope' not in plugin and 'outbound' not in plugin
+            assert plugin['apiVersion'] == 1 and 'script' not in plugin and 'scope' not in plugin and 'outbound' not in plugin and 'network' not in plugin
         assert plugin['id'] == path.parent.name
         assert re.fullmatch(r'[a-z0-9][a-z0-9-]{0,63}', plugin['id'])
         assert isinstance(plugin['name'], str) and plugin['name'].strip()

@@ -4,6 +4,8 @@ Baca [SITE_PLUGINS.md](SITE_PLUGINS.md) untuk scraper video API 1 dan [SHORTLINK
 
 ## Lingkup pekerjaan
 
+- API 4 pada YourSafe 4.0.5 menyediakan broker GET HTTPS terbatas untuk resolver domain, dengan permission `network.get` dan host persis dalam `network.hosts`. Script tetap tidak punya socket/fetch/DOM/native langsung. Baca batas API 4: tidak ada POST, cookies browser, submit form, atau penyelesaian CAPTCHA. ShrinkMe/Clksz hanya mengembalikan tujuan siap pakai; hasil uji live Astro Bot saat ini masih memerlukan verifikasi. Jangan menyatakan bypass berhasil hanya karena HTTP 200 atau tes simulasi lolos.
+
 - YourSafe 4.0.4 menambahkan shortlink API 3 khusus `scope: "source-page"`. `domains` membatasi halaman asal, sedangkan `outbound.paths` dan `outbound.queryParameter` memilih link keluar dari domain HTTPS mana pun. Baca schema dan batas baru di SHORTLINK_PLUGINS.md; API 2 tetap untuk domain shortlink biasa. Tulis semua nama/deskripsi plugin dalam bahasa Inggris.
 
 - YourSafe 4.0.3 mendukung penggantian href shortlink secara umum pada halaman HTTPS utama. Plugin API 2 dengan `selectors: []` dipilih otomatis berdasarkan `domains`; gunakan `resolve(input)` dari URL saja. Menambah domain/plugin yang memakai kemampuan ini tidak memerlukan APK baru. Plugin yang membutuhkan DOM halaman tujuan tetap memakai alur setelah navigasi; jangan mengklaim bisa menyelesaikannya dari halaman asal.
