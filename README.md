@@ -1,5 +1,7 @@
 # YourSafe site plugins
 
+**YourSafe 4.0.3:** generic shortlink anchor rewriting works on any eligible HTTPS main-frame page. Add an API 2 shortlink plugin with `selectors: []`, matching `domains`, and a `resolve(input)` that determines a destination from the URL; auto installation/update activates its domains without another APK update. Supported links, including dynamic links, have their actual `href` replaced for copy/open-in-new-tab. DOM-dependent plugins still resolve after opening their own page. See the 4.0.3 section of [SHORTLINK_PLUGINS.md](SHORTLINK_PLUGINS.md) for limits.
+
 **YourSafe 4.0.2:** on HTTPS OvaGames pages, supported CLK full links are also rewritten in the actual anchor `href`. Copy link and open in new tab therefore use the decoded destination after replacement. Links added dynamically are observed too. The native collector invokes the installed CLK plugin in its isolated worker; plugin scripts still have no direct DOM access. This requires a WebView supporting origin-scoped web messaging. Pre-navigation resolution remains available as a fallback. Reload an existing OvaGames tab after updating the APK.
 
 **YourSafe 4.0.1:** video scrapers (API 1) and isolated JavaScript shortlink helpers (API 2) are separate plugin types. Both support automatic installation, updates, versions and checksums. See [SHORTLINK_PLUGINS.md](SHORTLINK_PLUGINS.md) for the runtime contract, initial Linkvertise/Acortalink coverage and limits, and [THIRD_PARTY.md](THIRD_PARTY.md) for provenance. Existing video manifests remain API 1.

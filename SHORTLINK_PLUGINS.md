@@ -76,6 +76,20 @@ Bridge dibatasi ke origin OvaGames dan pesan dari frame utama, memerlukan dukung
 
 Ini kemampuan collector khusus yang diimplementasikan pada APK 4.0.2, bukan permission baru untuk script mengubah DOM secara bebas. Pengujian mencakup simulasi DOM (copy/tab baru, link dinamis, hasil kedaluwarsa) dan integrasi JVM dengan decoder sandbox; keduanya bukan pengujian situs live di perangkat.
 
+## Penggantian href umum — YourSafe 4.0.3
+
+Mekanisme 4.0.3 menggantikan pembatasan khusus OvaGames/CLK di atas. Pada halaman HTTPS port 443 tanpa kredensial URL, aplikasi membaca anchor yang domain tujuannya cocok dengan plugin shortlink terpasang **dan `selectors: []`**. Plugin menerima URL anchor tersebut dengan `links: []`, bukan DOM halaman asal. Tidak ada daftar domain sumber atau ID plugin khusus di mesin penggantian href. Plugin baru maupun perubahan domain otomatis ikut setelah auto install/update; tidak membutuhkan APK baru selama kontrak API 2 saat ini cukup.
+
+Gunakan plugin URL-only untuk decoder parameter, perhitungan lokal, atau pemetaan URL yang benar-benar diketahui. Script mengembalikan `null` untuk pola yang tidak ditangani. Plugin yang perlu membaca DOM halaman shortlink (`selectors` tidak kosong), akses jaringan, CAPTCHA atau interaksi tombol tidak dapat diselesaikan dari anchor di halaman asal. Alur setelah navigasi tetap tersedia untuk plugin berbasis DOM. Menambah manifest tidak memberikan permission tambahan.
+
+Collector bawaan tetap satu-satunya kode yang membaca/mengganti DOM; script plugin tetap di worker terisolasi. Bridge menerima pesan hanya dari frame utama HTTPS dengan origin yang cocok dengan WebView saat ini. Tidak ada akses cookie, HTML, storage atau API native melalui bridge. Validasi sumber/tujuan, perubahan halaman, plugin dihapus/diubah, dan tab tidak aktif diperiksa kembali di aplikasi.
+
+Tautan dinamis ikut diproses. Collector memindai maksimal 1.000 anchor per giliran, melanjutkan ke anchor berikutnya, mengirim maksimal 16 sumber unik per batch, lalu menunggu batch selesai. Maksimal 2.048 sumber dicoba per konfigurasi halaman; cache native 128 entri dan antrean 128. Link tidak didukung tidak menghalangi batch selanjutnya. Penggantian berlangsung asinkron; sebelum selesai, href asli masih tersedia dan resolver sebelum navigasi tetap menjadi cadangan. Teks/target link dipertahankan. Hanya anchor DOM dokumen utama yang diproses, bukan URL dalam teks biasa, handler JavaScript, shadow DOM atau iframe.
+
+Rantai resolver dibatasi lima hop; loop membatalkan penggantian. Semua hop tetap divalidasi dan perubahan konfigurasi membatalkan hasil lama. Link yang sudah diganti tetap memakai tujuan terakhir sampai halaman dimuat ulang. Muat ulang juga untuk mencoba ulang sumber yang sebelumnya gagal tanpa perubahan konfigurasi. WebView harus mendukung `WEB_MESSAGE_LISTENER`; provider lama tetap memakai resolver navigasi.
+
+Pengujian mencakup domain plugin baru pada halaman lain, rantai lintas plugin, loop, tujuan tidak aman, penghapusan plugin saat resolusi, link dinamis, batch di atas 1.000 anchor, serta copy/tab baru melalui href yang diganti. Tes JVM/DOM tidak membuktikan keberhasilan situs live di perangkat.
+
 ## Modul awal yang diadaptasi
 
 | Plugin | Sumber pola | Cakupan aktual |

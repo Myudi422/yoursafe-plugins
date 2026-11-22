@@ -4,6 +4,8 @@ Baca [SITE_PLUGINS.md](SITE_PLUGINS.md) untuk scraper video API 1 dan [SHORTLINK
 
 ## Lingkup pekerjaan
 
+- YourSafe 4.0.3 mendukung penggantian href shortlink secara umum pada halaman HTTPS utama. Plugin API 2 dengan `selectors: []` dipilih otomatis berdasarkan `domains`; gunakan `resolve(input)` dari URL saja. Menambah domain/plugin yang memakai kemampuan ini tidak memerlukan APK baru. Plugin yang membutuhkan DOM halaman tujuan tetap memakai alur setelah navigasi; jangan mengklaim bisa menyelesaikannya dari halaman asal.
+
 - Repo ini berisi manifest JSON video dan shortlink. JavaScript hanya didukung pada tipe `shortlink` API 2 melalui kontrak snapshot/resolve, bukan akses DOM/native bebas.
 - Scraper video membantu deteksi video, pemetaan soft subtitle, serta aturan sesi HLS. Shortlink helper menerima URL/link snapshot dan mengembalikan tujuan tervalidasi. Kode shortlink tidak boleh diinjeksikan ke JavaScript halaman atau dicampur dengan konfigurasi video.
 - Buat atau edit `plugins/<id>/plugin.json`. ID harus sama dengan nama folder dan tidak berubah setelah diterbitkan.
