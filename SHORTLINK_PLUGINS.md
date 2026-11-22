@@ -68,6 +68,14 @@ Decoder CLK versi awal disertakan di APK agar langsung tersedia tanpa menunggu k
 
 Skrip yang mengembalikan `null` menandakan format URL tersebut tidak ditangani dan navigasi normal dapat dilanjutkan. Jika worker gagal saat pre-navigation, aplikasi mempertahankan halaman asal dan memberi pesan untuk mencoba lagi; tidak diam-diam memuat halaman iklan sebagai fallback. Navigasi baru, perpindahan tab atau perubahan halaman membatalkan hasil lama. Redirect sintetis tanpa gesture dari halaman biasa tetap melewati perlindungan Anti-Redirect normal.
 
+## Penggantian href OvaGames — YourSafe 4.0.2
+
+Pada halaman HTTPS `ovagames.com` beserta subdomainnya, collector bawaan membaca anchor CLK `/full?url=Base64` dan meminta plugin `shortlink-clk-sh` yang terpasang untuk mendekodenya di worker terisolasi. Setelah tujuan tervalidasi, aplikasi mengganti atribut `href` anchor yang masih cocok dengan sumber persisnya. Teks link dan atribut `target` tetap dipertahankan, sehingga copy link dan buka tab baru memakai tujuan aslinya setelah penggantian selesai. MutationObserver menangani link yang ditambahkan belakangan.
+
+Bridge dibatasi ke origin OvaGames dan pesan dari frame utama, memerlukan dukungan WebView `WEB_MESSAGE_LISTENER`. Collector memeriksa maksimal 1.000 anchor dan 16 sumber unik per batch; antrean dan cache dibatasi masing-masing 128 entri. Hasil halaman lama, plugin yang berubah/dihapus, dan tujuan yang tidak lolos validasi diabaikan. Link yang belum berhasil didekode tetap memakai href awal, dengan resolver sebelum navigasi sebagai cadangan. Perubahan hanya berlaku pada DOM lokal halaman tersebut, tidak mengubah server OvaGames atau menghapus iklan/verifikasi situs tujuan. Muat ulang tab setelah memperbarui APK. Penghapusan plugin menghentikan penggantian selanjutnya; muat ulang untuk mendapatkan kembali href asli dari server.
+
+Ini kemampuan collector khusus yang diimplementasikan pada APK 4.0.2, bukan permission baru untuk script mengubah DOM secara bebas. Pengujian mencakup simulasi DOM (copy/tab baru, link dinamis, hasil kedaluwarsa) dan integrasi JVM dengan decoder sandbox; keduanya bukan pengujian situs live di perangkat.
+
 ## Modul awal yang diadaptasi
 
 | Plugin | Sumber pola | Cakupan aktual |
