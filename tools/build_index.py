@@ -49,18 +49,27 @@ def build(root):
     for path in sorted((root / 'plugins').glob('*/plugin.json')):
         raw = path.read_bytes()
         plugin = json.loads(raw)
-        assert type(plugin['apiVersion']) is int and plugin['apiVersion'] in (1, 2)
+        assert type(plugin['apiVersion']) is int and plugin['apiVersion'] in (1, 2, 3)
         kind = plugin.get('type', 'video')
         assert kind in ('video', 'shortlink')
         if kind == 'shortlink':
-            assert plugin['apiVersion'] == 2 and isinstance(plugin.get('script'), str)
+            assert plugin['apiVersion'] in (2, 3) and isinstance(plugin.get('script'), str)
+            if plugin['apiVersion'] == 3:
+                assert plugin.get('scope') == 'source-page' and plugin.get('selectors') == []
+                outbound = plugin['outbound']
+                assert isinstance(outbound, dict)
+                assert 1 <= len(outbound['paths']) <= 8
+                assert all(isinstance(p, str) and len(p) <= 200 and re.fullmatch(r'/[A-Za-z0-9/_-]+', p) for p in outbound['paths'])
+                assert re.fullmatch(r'[A-Za-z0-9_-]{1,40}', outbound['queryParameter'])
+            else:
+                assert 'scope' not in plugin and 'outbound' not in plugin
             assert 0 < len(plugin['script'].encode('utf-8')) <= 65536
             assert len(plugin.get('selectors', [])) <= 8
             assert all(isinstance(s, str) and 0 < len(s) <= 200 for s in plugin.get('selectors', []))
             assert set(plugin.get('permissions', [])) == {'page.links', 'navigation.resolve'}
             assert not any(key in plugin for key in ('playback', 'subtitles', 'mediaSelectors'))
         else:
-            assert plugin['apiVersion'] == 1 and 'script' not in plugin
+            assert plugin['apiVersion'] == 1 and 'script' not in plugin and 'scope' not in plugin and 'outbound' not in plugin
         assert plugin['id'] == path.parent.name
         assert re.fullmatch(r'[a-z0-9][a-z0-9-]{0,63}', plugin['id'])
         assert isinstance(plugin['name'], str) and plugin['name'].strip()

@@ -90,6 +90,34 @@ Rantai resolver dibatasi lima hop; loop membatalkan penggantian. Semua hop tetap
 
 Pengujian mencakup domain plugin baru pada halaman lain, rantai lintas plugin, loop, tujuan tidak aman, penghapusan plugin saat resolusi, link dinamis, batch di atas 1.000 anchor, serta copy/tab baru melalui href yang diganti. Tes JVM/DOM tidak membuktikan keberhasilan situs live di perangkat.
 
+## Source-page link helpers — API 3 / YourSafe 4.0.4
+
+API 3 adds one explicitly scoped capability to the existing isolated shortlink runtime. A source-page helper matches the **current page** against `domains`, then resolves outbound HTTPS anchors matching its path and query rules regardless of their destination domain. API 1 video scrapers and API 2 shortlink helpers remain supported. Older APKs reject API 3 instead of treating source-page domains as ordinary shortlink hosts.
+
+```json
+{
+  "apiVersion": 3,
+  "type": "shortlink",
+  "id": "ovagames-links",
+  "name": "OvaGames",
+  "description": "Replaces encoded full links with their original HTTPS destinations on OvaGames, regardless of the shortlink domain.",
+  "domains": ["ovagames.com"],
+  "scope": "source-page",
+  "outbound": {"paths": ["/full", "/full/"], "queryParameter": "url"},
+  "selectors": [],
+  "permissions": ["page.links", "navigation.resolve"],
+  "script": "function resolve(input) { /* Decode input.query.url, or return null. */ return null; }"
+}
+```
+
+The example script illustrates the contract; the published OvaGames manifest contains the actual local Base64 decoder. Versions remain bot-managed. New API 3 plugins must have `scope: "source-page"`, empty selectors, one to eight exact paths (maximum 200 characters, letters/digits/slashes/underscores/hyphens), and a query parameter name of one to 40 letters/digits/underscores/hyphens. Wildcard paths and new permissions are not supported. API 1/2 manifests must not declare this scope or outbound rules.
+
+Both the collector and native runtime check the source-page scope; lookalike domains and non-HTTPS pages do not qualify. Outbound URLs and resolved destinations still require HTTPS port 443 without credentials. Only the URL is sent to the sandbox with `links: []`; the helper gains no DOM, network, cookie, storage, or native access. `api` parameters are not used by the decoder, and no user's API values are included in the manifests. Invalid Base64, unsupported paths, empty query values, unsafe destinations, and loops leave links unchanged. These rules do not decode opaque short codes or bypass verification at the destination.
+
+Source-page helpers run before domain resolvers for qualifying anchors; returning null allows an existing domain resolver to try. All existing dynamic-link, batching, cancellation, generation, destination-validation, and five-hop limits apply. Cache entries include the source page so a result cannot be reused outside its authorized context. Gesture-driven clicks on matching links can also resolve before navigation if href rewriting has not completed; synthetic redirects retain normal protection. Standalone shortlinks outside OvaGames continue through their domain plugins. Already rewritten hrefs remain until a page reload.
+
+OvaGames version 1 is bundled in 4.0.4 for first use and offline upgrades, then updated through the public catalog. Explicit removal remains respected. Names/descriptions in the plugin UI are English, and the helper appears as **Website link helper**. Tests cover unknown outbound domains, source-domain lookalikes, unrelated pages/cache isolation, malformed/unsafe destinations, early clicked-link resolution, schema rejection, and existing API 2 behavior. Automated tests are not a claim of live website or physical-device validation.
+
 ## Modul awal yang diadaptasi
 
 | Plugin | Sumber pola | Cakupan aktual |

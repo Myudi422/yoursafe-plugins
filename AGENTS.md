@@ -4,6 +4,8 @@ Baca [SITE_PLUGINS.md](SITE_PLUGINS.md) untuk scraper video API 1 dan [SHORTLINK
 
 ## Lingkup pekerjaan
 
+- YourSafe 4.0.4 menambahkan shortlink API 3 khusus `scope: "source-page"`. `domains` membatasi halaman asal, sedangkan `outbound.paths` dan `outbound.queryParameter` memilih link keluar dari domain HTTPS mana pun. Baca schema dan batas baru di SHORTLINK_PLUGINS.md; API 2 tetap untuk domain shortlink biasa. Tulis semua nama/deskripsi plugin dalam bahasa Inggris.
+
 - YourSafe 4.0.3 mendukung penggantian href shortlink secara umum pada halaman HTTPS utama. Plugin API 2 dengan `selectors: []` dipilih otomatis berdasarkan `domains`; gunakan `resolve(input)` dari URL saja. Menambah domain/plugin yang memakai kemampuan ini tidak memerlukan APK baru. Plugin yang membutuhkan DOM halaman tujuan tetap memakai alur setelah navigasi; jangan mengklaim bisa menyelesaikannya dari halaman asal.
 
 - Repo ini berisi manifest JSON video dan shortlink. JavaScript hanya didukung pada tipe `shortlink` API 2 melalui kontrak snapshot/resolve, bukan akses DOM/native bebas.

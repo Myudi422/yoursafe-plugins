@@ -3,7 +3,7 @@
   "type": "shortlink",
   "id": "shortlink-shrinkearn",
   "name": "ShrinkEarn",
-  "description": "Membuka tujuan HTTPS dari parameter link penuh secara otomatis.",
+  "description": "Automatically opens HTTPS destinations encoded in full links.",
   "domains": [
     "shrinkearn.com"
   ],

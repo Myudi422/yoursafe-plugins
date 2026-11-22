@@ -40,6 +40,22 @@ class AutomaticVersionsTest(unittest.TestCase):
     def test_new_plugin_starts_at_one_without_a_version_field(self):
         self.assertEqual(1, self.read()['version'])
 
+    def test_source_page_plugin_uses_api_three_and_validates_outbound_rules(self):
+        plugin = dict(apiVersion=3, type='shortlink', id='example', name='Example links', domains=['example.com'],
+                      scope='source-page', outbound=dict(paths=['/full', '/full/'], queryParameter='url'), selectors=[],
+                      permissions=['page.links', 'navigation.resolve'], script='function resolve(i){return null;}')
+        self.write(plugin)
+        build(self.root)
+        entry = json.loads((self.root / 'index.json').read_bytes())['plugins'][0]
+        self.assertEqual(3, entry['apiVersion'])
+        self.assertEqual('shortlink', entry['type'])
+        index_before = (self.root / 'index.json').read_bytes()
+        plugin['outbound']['paths'] = ['*']
+        self.write(plugin)
+        with self.assertRaises(AssertionError):
+            build(self.root)
+        self.assertEqual(index_before, (self.root / 'index.json').read_bytes())
+
     def test_shortlink_script_changes_advance_version_and_typed_catalog_together(self):
         self.path = self.root / 'plugins/shortlink-example/plugin.json'
         self.path.parent.mkdir()
