@@ -1,0 +1,23 @@
+{
+  "apiVersion": 2,
+  "type": "shortlink",
+  "id": "shortlink-acortalink",
+  "name": "Acortalink",
+  "description": "Membuka link tujuan ketika tombol halaman sudah menyediakan alamatnya.",
+  "domains": [
+    "acortalink.me"
+  ],
+  "selectors": [
+    "a.button#contador"
+  ],
+  "permissions": [
+    "page.links",
+    "navigation.resolve"
+  ],
+  "script": "function resolve(input) { for(var i=0;i<input.links.length;i++){ var link=input.links[i]; if(link.selector==='a.button#contador' && link.href && link.href!=='#') return {url:link.href}; } return null; }",
+  "attribution": {
+    "source": "https://github.com/nOneCode4u/bypass-shortlinks/blob/01ad94a99974d3079facb6ec47e562b984af87b7/extra_bypasses/acortalink.user.js",
+    "license": "Unlicense",
+    "note": "Ready-link selector adaptation only. Does not copy upstream AdGuard message spoofing, popup overrides or challenge automation."
+  }
+}

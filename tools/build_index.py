@@ -1,6 +1,7 @@
 import hashlib
 import json
 import subprocess
+import re
 from pathlib import Path
 
 
@@ -48,8 +49,20 @@ def build(root):
     for path in sorted((root / 'plugins').glob('*/plugin.json')):
         raw = path.read_bytes()
         plugin = json.loads(raw)
-        assert plugin['apiVersion'] == 1
+        assert type(plugin['apiVersion']) is int and plugin['apiVersion'] in (1, 2)
+        kind = plugin.get('type', 'video')
+        assert kind in ('video', 'shortlink')
+        if kind == 'shortlink':
+            assert plugin['apiVersion'] == 2 and isinstance(plugin.get('script'), str)
+            assert 0 < len(plugin['script'].encode('utf-8')) <= 65536
+            assert len(plugin.get('selectors', [])) <= 8
+            assert all(isinstance(s, str) and 0 < len(s) <= 200 for s in plugin.get('selectors', []))
+            assert set(plugin.get('permissions', [])) == {'page.links', 'navigation.resolve'}
+            assert not any(key in plugin for key in ('playback', 'subtitles', 'mediaSelectors'))
+        else:
+            assert plugin['apiVersion'] == 1 and 'script' not in plugin
         assert plugin['id'] == path.parent.name
+        assert re.fullmatch(r'[a-z0-9][a-z0-9-]{0,63}', plugin['id'])
         assert isinstance(plugin['name'], str) and plugin['name'].strip()
         old = previous.get(plugin['id'])
         version = 1 if old is None else old[0] + (content(plugin) != content(old[1]))
@@ -58,7 +71,7 @@ def build(root):
             raw = (json.dumps(plugin, indent=2, ensure_ascii=False) + '\n').encode('utf-8')
             writes.append((path, raw))
         entries.append(dict(id=plugin['id'], name=plugin['name'], version=version,
-                            path=path.relative_to(root).as_posix(), sha256=hashlib.sha256(raw).hexdigest()))
+                            path=path.relative_to(root).as_posix(), sha256=hashlib.sha256(raw).hexdigest(), type=kind, apiVersion=plugin['apiVersion']))
     # Validate every manifest before updating any file.
     for path, raw in writes:
         path.write_bytes(raw)

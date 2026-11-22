@@ -1,5 +1,7 @@
 # Kemampuan plugin situs YourSafe
 
+Dokumen ini khusus **scraper video API 1**. YourSafe 4.0.0 juga mendukung **shortlink API 2** dengan sandbox dan kontrak terpisah; baca [SHORTLINK_PLUGINS.md](SHORTLINK_PLUGINS.md). Batas JavaScript di bawah mengacu pada manifest video API 1, bukan tipe shortlink baru.
+
 Panduan untuk pengembang dan AI. Mengacu pada **Scraper API 1** dan aplikasi **YourSafe 3.9.3**. Jika runtime aplikasi berubah, perbarui dokumen ini berdasarkan kode yang benar-benar dipakai.
 
 ## Apa sebenarnya plugin situs?

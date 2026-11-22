@@ -40,6 +40,24 @@ class AutomaticVersionsTest(unittest.TestCase):
     def test_new_plugin_starts_at_one_without_a_version_field(self):
         self.assertEqual(1, self.read()['version'])
 
+    def test_shortlink_script_changes_advance_version_and_typed_catalog_together(self):
+        self.path = self.root / 'plugins/shortlink-example/plugin.json'
+        self.path.parent.mkdir()
+        plugin = dict(apiVersion=2, type='shortlink', id='shortlink-example', name='Example shortlink', domains=['example.com'],
+                      permissions=['page.links', 'navigation.resolve'], script='function resolve(i){return null;}')
+        self.write(plugin)
+        build(self.root)
+        self.assertEqual(1, self.read()['version'])
+        self.commit(bot=True)
+        plugin['script'] = 'function resolve(i){return {url:i.query.r};}'
+        self.write(plugin)
+        build(self.root)
+        entry = next(p for p in json.loads((self.root / 'index.json').read_bytes())['plugins'] if p['id'] == 'shortlink-example')
+        self.assertEqual(2, entry['version'])
+        self.assertEqual('shortlink', entry['type'])
+        self.assertEqual(2, entry['apiVersion'])
+        self.assertEqual(hashlib.sha256(self.path.read_bytes()).hexdigest(), entry['sha256'])
+
     def test_content_edit_increments_once_even_when_run_repeatedly(self):
         plugin = self.read()
         plugin['domains'].append('another.example')

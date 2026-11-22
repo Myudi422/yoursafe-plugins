@@ -1,6 +1,8 @@
 # YourSafe site plugins
 
-Public repository for YourSafe's downloadable, data-only scraper plugins. Use YourSafe 3.9.1 or later for one-tap installation without credentials.
+**YourSafe 4.0.0:** video scrapers (API 1) and isolated JavaScript shortlink helpers (API 2) are separate plugin types. Both support automatic installation, updates, versions and checksums. See [SHORTLINK_PLUGINS.md](SHORTLINK_PLUGINS.md) for the runtime contract, initial Linkvertise/Acortalink coverage and limits, and [THIRD_PARTY.md](THIRD_PARTY.md) for provenance. Existing video manifests remain API 1.
+
+Public repository for YourSafe's downloadable, data-only scraper plugins. Use YourSafe 4.0.0 for both plugin types. Older 3.9.x builds support video rules only. No user credentials are required.
 
 ## Install on Android
 
@@ -30,7 +32,7 @@ Each plugin is a JSON object with `apiVersion: 1`, unique lowercase `id`, `name`
 
 `playback` configures scoped HLS query propagation. `hosts` lists exact HTTPS hosts, `pathPrefix` selects the video namespace, `scopeSegments` binds requests to the same video path, `tokenParameter` identifies the session query parameter, and `query` contains fixed query values. `playlistPrefix` and `variantPrefix` identify disguised JSON playlists. The engine refuses HTTP, alternate ports, URL credentials, unknown hosts, and paths belonging to another video. No credentials are stored in plugin manifests.
 
-Plugins cannot execute JavaScript, load DEX/native libraries, read the filesystem, or access application credentials. Their supported operations are declarative extraction and scoped media-request rewriting. Websites requiring a different capability may require a future app API; DRM is not bypassed.
+Video scraper manifests (API 1) cannot execute JavaScript, load DEX/native libraries, read the filesystem, or access application credentials. API 2 shortlink scripts run only through the isolated snapshot/resolve contract described in SHORTLINK_PLUGINS.md. Their supported operations are declarative extraction and scoped media-request rewriting. Websites requiring a different capability may require a future app API; DRM is not bypassed.
 
 ## Publish changes
 
