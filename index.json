@@ -4,9 +4,9 @@
     {
       "id": "idlix",
       "name": "IDLIX",
-      "version": 1,
+      "version": 2,
       "path": "plugins/idlix/plugin.json",
-      "sha256": "d233bd7ce0295970f479a9cdb9c7b6b5a84851eef68f1bef9ec13250e5fddb8e"
+      "sha256": "e62bd7a1460f54578732dd1f8eebb778e8f160d49eb1f59f76bc4ea12410a5c7"
     },
     {
       "id": "moviebox",

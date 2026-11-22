@@ -2,7 +2,7 @@
   "apiVersion": 1,
   "id": "idlix",
   "name": "IDLIX",
-  "version": 1,
+  "version": 2,
   "description": "Scoped HLS playback sessions, signed media requests, and disguised playlist discovery.",
   "domains": [
     "idlixku.com",
