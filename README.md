@@ -1,8 +1,8 @@
 # YourSafe site plugins
 
-**YourSafe 4.0.0:** video scrapers (API 1) and isolated JavaScript shortlink helpers (API 2) are separate plugin types. Both support automatic installation, updates, versions and checksums. See [SHORTLINK_PLUGINS.md](SHORTLINK_PLUGINS.md) for the runtime contract, initial Linkvertise/Acortalink coverage and limits, and [THIRD_PARTY.md](THIRD_PARTY.md) for provenance. Existing video manifests remain API 1.
+**YourSafe 4.0.1:** video scrapers (API 1) and isolated JavaScript shortlink helpers (API 2) are separate plugin types. Both support automatic installation, updates, versions and checksums. See [SHORTLINK_PLUGINS.md](SHORTLINK_PLUGINS.md) for the runtime contract, initial Linkvertise/Acortalink coverage and limits, and [THIRD_PARTY.md](THIRD_PARTY.md) for provenance. Existing video manifests remain API 1.
 
-Public repository for YourSafe's downloadable, data-only scraper plugins. Use YourSafe 4.0.0 for both plugin types. Older 3.9.x builds support video rules only. No user credentials are required.
+Public repository for YourSafe's downloadable, data-only scraper plugins. Use YourSafe 4.0.1 for both plugin types and pre-navigation resolution of URL-only shortlinks. The CLK decoder is bundled for immediate availability; a valid full link opens its destination without loading the shortlink page. Older 3.9.x builds support video rules only. No user credentials are required.
 
 ## Install on Android
 

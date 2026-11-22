@@ -57,6 +57,17 @@ Contoh bentuk manifest (domain dummy hanya untuk dokumentasi):
 - Navigasi plugin yang sudah tervalidasi memakai izin satu kali untuk URL persis tersebut, bukan mematikan Anti-Redirect secara global.
 - Tidak menyelesaikan CAPTCHA, memalsukan pesan verifikasi, melewati login/DRM atau mengirim URL ke layanan bypass eksternal.
 
+
+## Sebelum halaman dimuat — YourSafe 4.0.1
+
+Plugin dengan `selectors: []` diperlakukan sebagai resolver yang hanya membutuhkan URL. Pada YourSafe 4.0.1, klik navigasi utama GET dengan gesture pengguna, input alamat, dan pembukaan tab baru melalui aplikasi diproses sebelum `loadUrl` untuk shortlink. Script tetap berjalan di worker terisolasi, memakai input `links: []`.
+
+Untuk pola CLK `/full?url=Base64` yang valid, permintaan navigasi awal dibatalkan secara sinkron, lalu hanya URL HTTPS hasil resolusi yang dimuat. Halaman asal seperti OvaGames tidak diubah: link unduhannya menuju tujuan asli saat ditekan. Ini tidak menghapus iklan pada halaman asal atau melewati verifikasi di situs tujuan.
+
+Decoder CLK versi awal disertakan di APK agar langsung tersedia tanpa menunggu koneksi atau auto install pertama. Pembaruan repo tetap menggantikannya seperti biasa. Penghapusan plugin secara eksplisit tetap dihormati. APK lama masih memakai jalur setelah halaman dimuat.
+
+Skrip yang mengembalikan `null` menandakan format URL tersebut tidak ditangani dan navigasi normal dapat dilanjutkan. Jika worker gagal saat pre-navigation, aplikasi mempertahankan halaman asal dan memberi pesan untuk mencoba lagi; tidak diam-diam memuat halaman iklan sebagai fallback. Navigasi baru, perpindahan tab atau perubahan halaman membatalkan hasil lama. Redirect sintetis tanpa gesture dari halaman biasa tetap melewati perlindungan Anti-Redirect normal.
+
 ## Modul awal yang diadaptasi
 
 | Plugin | Sumber pola | Cakupan aktual |
