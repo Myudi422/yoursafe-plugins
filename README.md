@@ -11,6 +11,8 @@ IDLIX and MovieBox version 1 are bundled for offline first use. Installed update
 
 ## Repository layout
 
+Untuk AI dan penulis plugin: mulai dari [AGENTS.md](AGENTS.md), lalu baca [panduan kemampuan plugin situs](SITE_PLUGINS.md) untuk schema, contoh, batas runtime, dan cara pengujian.
+
 ```
 index.json
 plugins/idlix/plugin.json
