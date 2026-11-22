@@ -3,7 +3,7 @@
   "id": "idlix",
   "name": "IDLIX",
   "version": 1,
-  "description": "HLS playback session and disguised playlist discovery.",
+  "description": "Scoped HLS playback sessions, signed media requests, and disguised playlist discovery.",
   "domains": [
     "idlixku.com",
     "idlix.com",

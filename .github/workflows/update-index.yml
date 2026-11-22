@@ -7,6 +7,7 @@ on:
       - 'plugins/**'
       - 'index.json'
       - 'tools/build_index.py'
+      - 'tools/test_build_index.py'
       - '.github/workflows/update-index.yml'
   workflow_dispatch:
 
@@ -33,17 +34,18 @@ jobs:
           set -euo pipefail
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          python3 -m unittest discover -s tools -p 'test_*.py'
           for attempt in 1 2 3; do
             # Work on the latest branch in this disposable runner checkout.
             git fetch origin main
             git reset --hard origin/main
             python3 tools/build_index.py
-            if git diff --quiet -- index.json; then
+            if git diff --quiet -- index.json plugins/; then
               echo 'Catalog already matches the plugins.'
               exit 0
             fi
-            git add -- index.json
-            git commit -m 'chore: regenerate plugin index'
+            git add -- index.json plugins/
+            git commit -m 'chore: publish plugin versions and index'
             if git push origin HEAD:main; then
               exit 0
             fi

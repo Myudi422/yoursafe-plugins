@@ -20,7 +20,7 @@ tools/build_index.py
 
 ## Scraper API 1
 
-Each plugin is a JSON object with `apiVersion: 1`, unique lowercase `id`, `name`, positive integer `version`, `description`, and a `domains` array. Domains match exactly or as subdomains, never arbitrary URL substrings.
+Each plugin is a JSON object with `apiVersion: 1`, unique lowercase `id`, `name`, automatically managed integer `version`, `description`, and a `domains` array. Domains match exactly or as subdomains, never arbitrary URL substrings.
 
 `mediaSelectors` contains CSS selectors for elements exposing `currentSrc`, `src`, or `data-src`. Existing DOM video, network HLS/DASH/MP4, response MIME, and playback JSON discovery stay available in the app.
 
@@ -32,13 +32,13 @@ Plugins cannot execute JavaScript, load DEX/native libraries, read the filesyste
 
 ## Publish changes
 
-Add or edit `plugins/<site-id>/plugin.json` on the `main` branch, including through GitHub's web editor. Increment the plugin's integer `version` when publishing an update so installed apps offer **Update**.
+Add or edit `plugins/<site-id>/plugin.json` on the `main` branch, including through GitHub's web editor. You do not need to edit `version` or `index.json`. New plugins can omit `version`; the bot sets it to 1.
 
-GitHub Actions automatically regenerates `index.json` and commits it using `github-actions[bot]`. It handles added, edited and deleted plugins and recalculates SHA-256 hashes. No local script, GitHub token in the app, or APK update is needed.
+GitHub Actions compares plugin content against its last published snapshot, automatically increments the version of each changed plugin, regenerates `index.json`, and commits the manifests and catalog together using `github-actions[bot]`. It handles added, edited and deleted plugins and recalculates SHA-256 hashes. No local script, GitHub token in the app, or APK update is needed.
 
 Wait for **Actions > Update plugin index** to finish successfully, then open or refresh **Site plugins** in YourSafe. GitHub's raw-file cache can take a short time to reflect a new commit. Invalid plugin JSON fails the workflow and leaves the previous generated catalog intact; check the run log, fix the manifest and commit again.
 
-The workflow also runs when the index generator or workflow changes, and can be run manually with **Run workflow**. It commits only `index.json` when the generated content changes, and retries if another commit arrives while it is running.
+The workflow also runs when the index generator or workflow changes, and can be run manually with **Run workflow**. It commits changed plugin versions and `index.json` together, and retries if another commit arrives while it is running. Unchanged plugins keep their versions. Re-running the workflow does not bump a version again; whitespace/key-order changes and edits to the version field alone do not count as content updates. The bot manages the version field, so manual version numbers are normalized automatically.
 
 The generator remains available for optional local previews:
 
