@@ -47,6 +47,15 @@
       "apiVersion": 2
     },
     {
+      "id": "shortlink-clksz",
+      "name": "Clksz",
+      "version": 1,
+      "path": "plugins/shortlink-clksz/plugin.json",
+      "sha256": "3d8e0c4e9e6c65368f7cb45bad37ba94895ee2275c46b59981be7bb2878fdb99",
+      "type": "shortlink",
+      "apiVersion": 4
+    },
+    {
       "id": "shortlink-linkvertise",
       "name": "Linkvertise",
       "version": 2,
@@ -63,6 +72,15 @@
       "sha256": "1c9ee1e693b3c309e8c2fc22986b5844b6552594ee6e83ee6766541cb633a84a",
       "type": "shortlink",
       "apiVersion": 2
+    },
+    {
+      "id": "shortlink-shrinkme",
+      "name": "ShrinkMe",
+      "version": 1,
+      "path": "plugins/shortlink-shrinkme/plugin.json",
+      "sha256": "4744e477503e0ec99aaf6d8e77ed2f763c9bfdf8d28bca0675abd23baf8cfc09",
+      "type": "shortlink",
+      "apiVersion": 4
     }
   ]
 }
