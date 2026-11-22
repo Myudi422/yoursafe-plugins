@@ -1,0 +1,19 @@
+{
+  "apiVersion": 1,
+  "plugins": [
+    {
+      "id": "idlix",
+      "name": "IDLIX",
+      "version": 1,
+      "path": "plugins/idlix/plugin.json",
+      "sha256": "d233bd7ce0295970f479a9cdb9c7b6b5a84851eef68f1bef9ec13250e5fddb8e"
+    },
+    {
+      "id": "moviebox",
+      "name": "MovieBox",
+      "version": 1,
+      "path": "plugins/moviebox/plugin.json",
+      "sha256": "0d986fa1c02225a3bc3b82ef143085972a7490750cbd0ebd5d2a9d3a19eb1125"
+    }
+  ]
+}

@@ -1,0 +1,45 @@
+{
+  "apiVersion": 1,
+  "id": "moviebox",
+  "name": "MovieBox",
+  "version": 1,
+  "description": "DASH/HLS API and Indonesian soft subtitle catalog.",
+  "domains": [
+    "themoviebox.xyz",
+    "moviebox.ph",
+    "moviebox.ng",
+    "moviebox.pk"
+  ],
+  "subtitles": {
+    "urlKeys": [
+      "subtitleLink",
+      "url",
+      "src",
+      "file",
+      "path",
+      "link"
+    ],
+    "languageKeys": [
+      "lan",
+      "language",
+      "lang",
+      "srclang"
+    ],
+    "labelKeys": [
+      "lanName",
+      "languageName",
+      "label",
+      "name"
+    ],
+    "containers": [
+      "captions",
+      "subtitles",
+      "tracks",
+      "textTracks"
+    ]
+  },
+  "mediaSelectors": [
+    "video",
+    "video source"
+  ]
+}
