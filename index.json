@@ -45,6 +45,15 @@
       "sha256": "e02eae76938ed2ea2d3288a5aa75928ca6e5ec3cba76e6cc34c090215273fdca",
       "type": "shortlink",
       "apiVersion": 2
+    },
+    {
+      "id": "shortlink-shrinkearn",
+      "name": "ShrinkEarn",
+      "version": 1,
+      "path": "plugins/shortlink-shrinkearn/plugin.json",
+      "sha256": "2148e073516383ea736a334ea143b3cb7455af35d9dbef84c8e30a5cc30cc831",
+      "type": "shortlink",
+      "apiVersion": 2
     }
   ]
 }

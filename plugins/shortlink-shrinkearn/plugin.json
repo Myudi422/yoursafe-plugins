@@ -15,5 +15,6 @@
   "script": "function resolve(input) { if(input.path!=='/full' && input.path!=='/full/') return null; var raw=input.query.url; if(typeof raw!=='string' || !raw) return null; try { var target=decodeURIComponent(escape(atob(raw))); if(!/^https:\\/\\//i.test(target) || /[\\u0000-\\u0020\\u007f]/.test(target)) return null; return {url:target}; } catch(e) { return null; } }",
   "attribution": {
     "note": "Original local decoder for the observed shrinkearn.com /full?url=Base64 format. Does not read api keys or contact an external resolver."
-  }
+  },
+  "version": 1
 }
