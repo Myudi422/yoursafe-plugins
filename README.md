@@ -32,13 +32,18 @@ Plugins cannot execute JavaScript, load DEX/native libraries, read the filesyste
 
 ## Publish changes
 
-Edit a manifest and increment its `version`. Run:
+Add or edit `plugins/<site-id>/plugin.json` on the `main` branch, including through GitHub's web editor. Increment the plugin's integer `version` when publishing an update so installed apps offer **Update**.
+
+GitHub Actions automatically regenerates `index.json` and commits it using `github-actions[bot]`. It handles added, edited and deleted plugins and recalculates SHA-256 hashes. No local script, GitHub token in the app, or APK update is needed.
+
+Wait for **Actions > Update plugin index** to finish successfully, then open or refresh **Site plugins** in YourSafe. GitHub's raw-file cache can take a short time to reflect a new commit. Invalid plugin JSON fails the workflow and leaves the previous generated catalog intact; check the run log, fix the manifest and commit again.
+
+The workflow also runs when the index generator or workflow changes, and can be run manually with **Run workflow**. It commits only `index.json` when the generated content changes, and retries if another commit arrives while it is running.
+
+The generator remains available for optional local previews:
 
 ```
 python tools/build_index.py
-git add plugins index.json
-git commit -m "Update site plugin"
-git push
 ```
 
 `build_index.py` regenerates the catalog and SHA-256 values from the exact manifest bytes. YourSafe checks the checksum and ID/version before atomically replacing a plugin, rejects downgrades, and keeps the previous installed version if validation fails. Repository access is the trust boundary: restrict write access and review plugin changes.
