@@ -20,38 +20,47 @@
       "apiVersion": 1
     },
     {
+      "id": "ovagames-links",
+      "name": "OvaGames",
+      "version": 1,
+      "path": "plugins/ovagames-links/plugin.json",
+      "sha256": "ae45fe6133c9c9be28c375433fcc69fbe7a257065ab74c27044b9f80c803f96f",
+      "type": "shortlink",
+      "apiVersion": 3
+    },
+    {
       "id": "shortlink-acortalink",
       "name": "Acortalink",
-      "version": 1,
+      "version": 2,
       "path": "plugins/shortlink-acortalink/plugin.json",
-      "sha256": "d0f63953d26c76f55f1b4e9410f4e1cc0341e63a3035c74b56f9fef1df9fb330",
+      "sha256": "882f3f3934dcf625a418110b1f2adf8ebe54d1f0f20fcebcc8b97a27250b7aa8",
       "type": "shortlink",
       "apiVersion": 2
     },
     {
       "id": "shortlink-clk-sh",
       "name": "CLK",
-      "version": 1,
+      "version": 2,
       "path": "plugins/shortlink-clk-sh/plugin.json",
-      "sha256": "214b188068585384c3608576ba056010d8184db6be024c9f1d5bd9b6ab6ba76d",
+      "sha256": "39a922c8844599693d6d755b1553fe93926bd71a9cf2dc4eb12d5194b66c5e6c",
       "type": "shortlink",
       "apiVersion": 2
     },
     {
       "id": "shortlink-linkvertise",
       "name": "Linkvertise",
-      "version": 1,
+      "version": 2,
       "path": "plugins/shortlink-linkvertise/plugin.json",
-      "sha256": "e02eae76938ed2ea2d3288a5aa75928ca6e5ec3cba76e6cc34c090215273fdca",
+      "sha256": "6b4149df7ded6bfa3efe0e1d7e138b9f05dab42e4cc4dc6a252ace107223b5c9",
       "type": "shortlink",
       "apiVersion": 2
     },
     {
       "id": "shortlink-shrinkearn",
       "name": "ShrinkEarn",
-      "version": 1,
+      "version": 2,
       "path": "plugins/shortlink-shrinkearn/plugin.json",
-      "sha256": "2148e073516383ea736a334ea143b3cb7455af35d9dbef84c8e30a5cc30cc831",
+      "sha256": "1c9ee1e693b3c309e8c2fc22986b5844b6552594ee6e83ee6766541cb633a84a",
       "type": "shortlink",
       "apiVersion": 2
     }

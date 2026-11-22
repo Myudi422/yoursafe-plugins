@@ -20,5 +20,5 @@
     "license": "Unlicense",
     "note": "Ready-link selector adaptation only. Does not copy upstream AdGuard message spoofing, popup overrides or challenge automation."
   },
-  "version": 1
+  "version": 2
 }

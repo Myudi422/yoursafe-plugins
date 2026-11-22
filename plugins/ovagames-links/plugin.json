@@ -23,5 +23,6 @@
       "/full/"
     ],
     "queryParameter": "url"
-  }
+  },
+  "version": 1
 }

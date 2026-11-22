@@ -16,5 +16,5 @@
   "attribution": {
     "note": "Original local decoder for the observed shrinkearn.com /full?url=Base64 format. Does not read api keys or contact an external resolver."
   },
-  "version": 1
+  "version": 2
 }
