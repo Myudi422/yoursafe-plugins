@@ -1,12 +1,12 @@
 # YourSafe site plugins
 
-Private repository for YourSafe's downloadable, data-only scraper plugins. Requires YourSafe 3.9.0 or later.
+Public repository for YourSafe's downloadable, data-only scraper plugins. Use YourSafe 3.9.1 or later for one-tap installation without credentials.
 
 ## Install on Android
 
-Open the browser's **Plugins > Site plugins > Install / update site plugins**.
-Use `Myudi422/yoursafe-plugins`, branch `main`. For private access, create a fine-grained GitHub token with access to this repository only and **Contents: Read-only**. Enter it on the phone, then **Check updates > Install / Update**. The token is encrypted with Android Keystore, is never included in the APK or this repository, and can be removed with **Forget token**.
+Open the browser's **Plugins > Site plugins > Install / update site plugins**. The public catalog loads automatically. Choose **Install** or **Update**. No GitHub account, token, or Workers service is needed.
 
+YourSafe 3.9.1 fetches files directly from `raw.githubusercontent.com/Myudi422/yoursafe-plugins/main/` without authentication and removes obsolete private-repository credential settings. The refresh button checks for new catalog versions.
 IDLIX and MovieBox version 1 are bundled for offline first use. Installed updates override the bundled rules and survive app restarts. Removing a plugin disables its special rules; general video detection remains available. Restore bundled plugins is available without GitHub access. Reload websites after changing plugins.
 
 ## Repository layout
@@ -28,7 +28,7 @@ Each plugin is a JSON object with `apiVersion: 1`, unique lowercase `id`, `name`
 
 `playback` configures scoped HLS query propagation. `hosts` lists exact HTTPS hosts, `pathPrefix` selects the video namespace, `scopeSegments` binds requests to the same video path, `tokenParameter` identifies the session query parameter, and `query` contains fixed query values. `playlistPrefix` and `variantPrefix` identify disguised JSON playlists. The engine refuses HTTP, alternate ports, URL credentials, unknown hosts, and paths belonging to another video. No credentials are stored in plugin manifests.
 
-Plugins cannot execute JavaScript, load DEX/native libraries, read the filesystem, or access the GitHub credential. Their supported operations are declarative extraction and scoped media-request rewriting. Websites requiring a different capability may require a future app API; DRM is not bypassed.
+Plugins cannot execute JavaScript, load DEX/native libraries, read the filesystem, or access application credentials. Their supported operations are declarative extraction and scoped media-request rewriting. Websites requiring a different capability may require a future app API; DRM is not bypassed.
 
 ## Publish changes
 
