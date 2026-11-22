@@ -40,52 +40,22 @@ class AutomaticVersionsTest(unittest.TestCase):
     def test_new_plugin_starts_at_one_without_a_version_field(self):
         self.assertEqual(1, self.read()['version'])
 
-    def test_network_plugins_require_api_four_exact_hosts_and_get_only(self):
-        plugin = dict(apiVersion=4, type='shortlink', id='example', name='Example resolver', domains=['example.com'],
-                      selectors=['a.get-link[href]'], permissions=['page.links','navigation.resolve','network.get'],
-                      network=dict(hosts=['example.com'], methods=['GET']), script='function resolve(i){return null;}')
-        self.write(plugin)
-        build(self.root)
-        self.assertEqual(4,json.loads((self.root / 'index.json').read_bytes())['plugins'][0]['apiVersion'])
-        for invalid in [dict(hosts=['example.com'],methods=['POST']),dict(hosts=['other.example'],methods=['GET'])]:
-            plugin['network']=invalid
-            self.write(plugin)
+    def test_executable_formats_are_rejected_without_modifying_catalog(self):
+        before = (self.root / 'index.json').read_bytes()
+        for api in (2, 3, 4):
+            self.write(dict(apiVersion=api, type='shortlink', id='example', name='Unsupported', domains=['example.com']))
             with self.assertRaises(AssertionError):
                 build(self.root)
-
-    def test_source_page_plugin_uses_api_three_and_validates_outbound_rules(self):
-        plugin = dict(apiVersion=3, type='shortlink', id='example', name='Example links', domains=['example.com'],
-                      scope='source-page', outbound=dict(paths=['/full', '/full/'], queryParameter='url'), selectors=[],
-                      permissions=['page.links', 'navigation.resolve'], script='function resolve(i){return null;}')
-        self.write(plugin)
-        build(self.root)
-        entry = json.loads((self.root / 'index.json').read_bytes())['plugins'][0]
-        self.assertEqual(3, entry['apiVersion'])
-        self.assertEqual('shortlink', entry['type'])
-        index_before = (self.root / 'index.json').read_bytes()
-        plugin['outbound']['paths'] = ['*']
-        self.write(plugin)
+            self.assertEqual(before, (self.root / 'index.json').read_bytes())
+        self.write(dict(apiVersion=1, id='example', name='Unsupported', domains=['example.com'], script='function resolve(){return null;}'))
         with self.assertRaises(AssertionError):
             build(self.root)
-        self.assertEqual(index_before, (self.root / 'index.json').read_bytes())
+        self.assertEqual(before, (self.root / 'index.json').read_bytes())
 
-    def test_shortlink_script_changes_advance_version_and_typed_catalog_together(self):
-        self.path = self.root / 'plugins/shortlink-example/plugin.json'
-        self.path.parent.mkdir()
-        plugin = dict(apiVersion=2, type='shortlink', id='shortlink-example', name='Example shortlink', domains=['example.com'],
-                      permissions=['page.links', 'navigation.resolve'], script='function resolve(i){return null;}')
-        self.write(plugin)
+    def test_deleted_plugin_disappears_from_catalog(self):
+        self.path.unlink()
         build(self.root)
-        self.assertEqual(1, self.read()['version'])
-        self.commit(bot=True)
-        plugin['script'] = 'function resolve(i){return {url:i.query.r};}'
-        self.write(plugin)
-        build(self.root)
-        entry = next(p for p in json.loads((self.root / 'index.json').read_bytes())['plugins'] if p['id'] == 'shortlink-example')
-        self.assertEqual(2, entry['version'])
-        self.assertEqual('shortlink', entry['type'])
-        self.assertEqual(2, entry['apiVersion'])
-        self.assertEqual(hashlib.sha256(self.path.read_bytes()).hexdigest(), entry['sha256'])
+        self.assertEqual([], json.loads((self.root / 'index.json').read_bytes())['plugins'])
 
     def test_content_edit_increments_once_even_when_run_repeatedly(self):
         plugin = self.read()
