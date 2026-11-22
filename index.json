@@ -18,69 +18,6 @@
       "sha256": "0d986fa1c02225a3bc3b82ef143085972a7490750cbd0ebd5d2a9d3a19eb1125",
       "type": "video",
       "apiVersion": 1
-    },
-    {
-      "id": "ovagames-links",
-      "name": "OvaGames",
-      "version": 1,
-      "path": "plugins/ovagames-links/plugin.json",
-      "sha256": "ae45fe6133c9c9be28c375433fcc69fbe7a257065ab74c27044b9f80c803f96f",
-      "type": "shortlink",
-      "apiVersion": 3
-    },
-    {
-      "id": "shortlink-acortalink",
-      "name": "Acortalink",
-      "version": 2,
-      "path": "plugins/shortlink-acortalink/plugin.json",
-      "sha256": "882f3f3934dcf625a418110b1f2adf8ebe54d1f0f20fcebcc8b97a27250b7aa8",
-      "type": "shortlink",
-      "apiVersion": 2
-    },
-    {
-      "id": "shortlink-clk-sh",
-      "name": "CLK",
-      "version": 2,
-      "path": "plugins/shortlink-clk-sh/plugin.json",
-      "sha256": "39a922c8844599693d6d755b1553fe93926bd71a9cf2dc4eb12d5194b66c5e6c",
-      "type": "shortlink",
-      "apiVersion": 2
-    },
-    {
-      "id": "shortlink-clksz",
-      "name": "Clksz",
-      "version": 1,
-      "path": "plugins/shortlink-clksz/plugin.json",
-      "sha256": "3d8e0c4e9e6c65368f7cb45bad37ba94895ee2275c46b59981be7bb2878fdb99",
-      "type": "shortlink",
-      "apiVersion": 4
-    },
-    {
-      "id": "shortlink-linkvertise",
-      "name": "Linkvertise",
-      "version": 2,
-      "path": "plugins/shortlink-linkvertise/plugin.json",
-      "sha256": "6b4149df7ded6bfa3efe0e1d7e138b9f05dab42e4cc4dc6a252ace107223b5c9",
-      "type": "shortlink",
-      "apiVersion": 2
-    },
-    {
-      "id": "shortlink-shrinkearn",
-      "name": "ShrinkEarn",
-      "version": 2,
-      "path": "plugins/shortlink-shrinkearn/plugin.json",
-      "sha256": "1c9ee1e693b3c309e8c2fc22986b5844b6552594ee6e83ee6766541cb633a84a",
-      "type": "shortlink",
-      "apiVersion": 2
-    },
-    {
-      "id": "shortlink-shrinkme",
-      "name": "ShrinkMe",
-      "version": 1,
-      "path": "plugins/shortlink-shrinkme/plugin.json",
-      "sha256": "4744e477503e0ec99aaf6d8e77ed2f763c9bfdf8d28bca0675abd23baf8cfc09",
-      "type": "shortlink",
-      "apiVersion": 4
     }
   ]
 }
