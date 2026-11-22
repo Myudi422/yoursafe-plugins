@@ -97,6 +97,7 @@ Pengujian mencakup domain plugin baru pada halaman lain, rantai lintas plugin, l
 | `shortlink-linkvertise` | Cabang lokal `r` pada `extra_bypasses/apis.user.js` | Decode parameter base64 `r`, lalu validasi tujuan HTTPS. Kasus yang memerlukan resolver/server eksternal tidak didukung. |
 | `shortlink-acortalink` | Selector `a.button#contador` pada `extra_bypasses/acortalink.user.js` | Membuka URL pada anchor yang sudah tersedia. Tidak menyalin spoofing `postMessage`, manipulasi popup, CAPTCHA, atau algoritma verifikasi upstream. |
 | `shortlink-clk-sh` | Format `/full?url=Base64` yang diamati pada link pengguna | Decode lokal parameter `url` menjadi tujuan HTTPS. Parameter `api` tidak dipakai/disimpan; tidak memanggil resolver eksternal. Link kode pendek tanpa parameter tujuan tidak termasuk cakupan ini. |
+| `shortlink-shrinkearn` | Format `shrinkearn.com/full?url=Base64` yang diamati pada link pengguna | Decode lokal tujuan HTTPS; `api` tidak digunakan. Pada 4.0.3, anchor pada halaman asal ikut diganti oleh mekanisme umum setelah plugin tersinkronisasi. Link kode pendek tanpa parameter tujuan tidak termasuk cakupan ini. |
 
 Provenance dan batas adaptasi ada di `attribution` setiap manifest serta [THIRD_PARTY.md](THIRD_PARTY.md). Ini bukan port semua domain/fitur repo upstream. Jangan menambahkan manifest domain yang belum diamati atau menjanjikan shortlink terproteksi selesai hanya karena halaman cocok.
 
