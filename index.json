@@ -6,14 +6,36 @@
       "name": "IDLIX",
       "version": 2,
       "path": "plugins/idlix/plugin.json",
-      "sha256": "e62bd7a1460f54578732dd1f8eebb778e8f160d49eb1f59f76bc4ea12410a5c7"
+      "sha256": "e62bd7a1460f54578732dd1f8eebb778e8f160d49eb1f59f76bc4ea12410a5c7",
+      "type": "video",
+      "apiVersion": 1
     },
     {
       "id": "moviebox",
       "name": "MovieBox",
       "version": 1,
       "path": "plugins/moviebox/plugin.json",
-      "sha256": "0d986fa1c02225a3bc3b82ef143085972a7490750cbd0ebd5d2a9d3a19eb1125"
+      "sha256": "0d986fa1c02225a3bc3b82ef143085972a7490750cbd0ebd5d2a9d3a19eb1125",
+      "type": "video",
+      "apiVersion": 1
+    },
+    {
+      "id": "shortlink-acortalink",
+      "name": "Acortalink",
+      "version": 1,
+      "path": "plugins/shortlink-acortalink/plugin.json",
+      "sha256": "d0f63953d26c76f55f1b4e9410f4e1cc0341e63a3035c74b56f9fef1df9fb330",
+      "type": "shortlink",
+      "apiVersion": 2
+    },
+    {
+      "id": "shortlink-linkvertise",
+      "name": "Linkvertise",
+      "version": 1,
+      "path": "plugins/shortlink-linkvertise/plugin.json",
+      "sha256": "e02eae76938ed2ea2d3288a5aa75928ca6e5ec3cba76e6cc34c090215273fdca",
+      "type": "shortlink",
+      "apiVersion": 2
     }
   ]
 }

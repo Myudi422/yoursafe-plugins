@@ -17,5 +17,6 @@
     "source": "https://github.com/nOneCode4u/bypass-shortlinks/blob/01ad94a99974d3079facb6ec47e562b984af87b7/extra_bypasses/apis.user.js",
     "license": "Unlicense",
     "note": "Adapted local r-parameter branch only; external resolver paths are excluded."
-  }
+  },
+  "version": 1
 }

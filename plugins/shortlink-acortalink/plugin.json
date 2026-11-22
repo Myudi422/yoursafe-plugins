@@ -19,5 +19,6 @@
     "source": "https://github.com/nOneCode4u/bypass-shortlinks/blob/01ad94a99974d3079facb6ec47e562b984af87b7/extra_bypasses/acortalink.user.js",
     "license": "Unlicense",
     "note": "Ready-link selector adaptation only. Does not copy upstream AdGuard message spoofing, popup overrides or challenge automation."
-  }
+  },
+  "version": 1
 }
