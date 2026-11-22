@@ -52,8 +52,8 @@ Contoh bentuk manifest (domain dummy hanya untuk dokumentasi):
 
 - Interpreter membatasi sekitar 100.000 instruksi, deadline pemeriksaan 250 ms dan kedalaman stack 128. Hitungan instruksi/deadline tidak menjamin batas memori untuk semua operasi native JavaScript.
 - Watchdog service mengakhiri proses worker jika eksekusi tidak selesai dalam 1,2 detik, termasuk operasi yang tidak melewati observer instruksi. Client juga memiliki timeout dan menangani worker yang mati. Saat unbind/destroy, worker terisolasi dihentikan.
-- Browser memeriksa perubahan link maksimal sekitar 10 detik untuk halaman yang sedang aktif/terlihat; snapshot yang sama tidak dieksekusi terus-menerus.
-- Navigasi dibatalkan bila pengguna pindah halaman/tab, plugin berubah/dihapus, atau browser tidak aktif. Satu rantai dibatasi lima hop dalam jendela sekitar 30 detik; loop ditolak.
+- Browser melakukan paling banyak 20 pemeriksaan link dengan jeda 500 ms untuk halaman yang sedang aktif/terlihat; waktu snapshot dan IPC dapat menambah durasi. Snapshot yang sama tidak dieksekusi terus-menerus.
+- Navigasi dibatalkan bila pengguna pindah halaman/tab, plugin berubah/dihapus, atau browser tidak aktif. Satu rantai dibatasi lima hop dan loop ditolak. Riwayat rantai direset setelah jeda lebih dari 30 detik atau ketika pengguna memasuki sumber baru yang tidak termasuk rantai tersebut.
 - Navigasi plugin yang sudah tervalidasi memakai izin satu kali untuk URL persis tersebut, bukan mematikan Anti-Redirect secara global.
 - Tidak menyelesaikan CAPTCHA, memalsukan pesan verifikasi, melewati login/DRM atau mengirim URL ke layanan bypass eksternal.
 
