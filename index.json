@@ -29,6 +29,15 @@
       "apiVersion": 2
     },
     {
+      "id": "shortlink-clk-sh",
+      "name": "CLK",
+      "version": 1,
+      "path": "plugins/shortlink-clk-sh/plugin.json",
+      "sha256": "214b188068585384c3608576ba056010d8184db6be024c9f1d5bd9b6ab6ba76d",
+      "type": "shortlink",
+      "apiVersion": 2
+    },
+    {
       "id": "shortlink-linkvertise",
       "name": "Linkvertise",
       "version": 1,
